@@ -1,0 +1,45 @@
+DEFINE FUNCTION apartmentHunting(blocks, reqs):
+
+SET maxDistancesAtBlocks TO [float("-inf") FOR block IN blocks]
+
+FOR i IN range(len(blocks)):
+
+FOR req IN reqs:
+
+SET closestReqDistance TO float("inf")
+
+FOR j IN range(len(blocks)):
+
+IF blocks[j][req]:
+
+SET closestReqDistance TO min(closestReqDistance, distanceBetween(i, j))
+
+SET maxDistancesAtBlocks[i] TO max(maxDistancesAtBlocks[i], closestReqDistance)
+
+RETURN getIdxAtMinValue(maxDistancesAtBlocks)
+
+
+
+DEFINE FUNCTION getIdxAtMinValue(array):
+
+SET idxAtMinValue TO 0
+
+SET minValue TO float("inf")
+
+FOR i IN range(len(array)):
+
+SET currentValue TO array[i]
+
+IF currentValue < minValue:
+
+SET minValue TO currentValue
+
+SET idxAtMinValue TO i
+
+RETURN idxAtMinValue
+
+
+
+DEFINE FUNCTION distanceBetween(a, b):
+
+RETURN abs(a - b)
